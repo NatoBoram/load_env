@@ -30,8 +30,8 @@ importers:
         specifier: ^4.19.1
         version: 4.19.1
       typedoc:
-        specifier: ^0.26.8
-        version: 0.26.8(typescript@5.7.0-beta)
+        specifier: ^0.26.9
+        version: 0.26.9(typescript@5.7.0-beta)
       typescript:
         specifier: 5.7.0-beta
         version: 5.7.0-beta
@@ -1171,8 +1171,8 @@ packages:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
 
-  typedoc@0.26.8:
-    resolution: {integrity: sha512-QBF0BMbnNeUc6U7pRHY7Jb8pjhmiNWZNQT8LU6uk9qP9t3goP9bJptdlNqMC0wBB2w9sQrxjZt835bpRSSq1LA==}
+  typedoc@0.26.9:
+    resolution: {integrity: sha512-Rc7QpWL7EtmrT8yxV0GmhOR6xHgFnnhphbD9Suti3fz3um7ZOrou6q/g9d6+zC5PssTLZmjaW4Upmzv8T1rCcQ==}
     engines: {node: '>= 18'}
     hasBin: true
     peerDependencies:
@@ -2347,7 +2347,7 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
 
-  typedoc@0.26.8(typescript@5.7.0-beta):
+  typedoc@0.26.9(typescript@5.7.0-beta):
     dependencies:
       lunr: 2.3.9
       markdown-it: 14.1.0
