@@ -50,8 +50,8 @@ jobs:
           eval `ssh-agent -s`
           ssh-add - <<< '${{ secrets.DEPLOY_KEY_PRIVATE }}'
           echo '${{ vars.DEPLOY_KEY_PUBLIC }}' > '${{ runner.temp }}/DEPLOY_KEY_PUBLIC.pub'
-          ssh-keygen -Y sign -f '${{ runner.temp }}/DEPLOY_KEY_PUBLIC.pub' -n file natoboram-gigachad.ts-*.tgz
-          ssh-keygen -Y verify -f ./.github/authorized_keys -I '41898282+github-actions[bot]@users.noreply.github.com' -n file -s natoboram-gigachad.ts-*.tgz.sig < natoboram-gigachad.ts-*.tgz
-      - run: gh release upload ${{ github.ref_name }} natoboram-gigachad.ts-*.tgz natoboram-gigachad.ts-*.tgz.sig
+          ssh-keygen -Y sign -f '${{ runner.temp }}/DEPLOY_KEY_PUBLIC.pub' -n file natoboram-load_env-*.tgz
+          ssh-keygen -Y verify -f ./.github/authorized_keys -I '41898282+github-actions[bot]@users.noreply.github.com' -n file -s natoboram-load_env-*.tgz.sig < natoboram-load_env-*.tgz
+      - run: gh release upload ${{ github.ref_name }} natoboram-load_env-*.tgz natoboram-load_env-*.tgz.sig
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
