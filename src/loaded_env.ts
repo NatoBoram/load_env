@@ -1,5 +1,3 @@
-import type { ProcessEnv } from "./process_env.ts"
-
-export interface LoadedEnv extends ProcessEnv {
+export interface LoadedEnv extends NodeJS.ProcessEnv {
 	readonly NODE_ENV: string
 }
