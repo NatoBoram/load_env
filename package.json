@@ -1,6 +1,6 @@
 {
 	"name": "@natoboram/load_env",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "A standalone implementation of Vite's loadEnv",
 	"keywords": [
 		"dotenv",
