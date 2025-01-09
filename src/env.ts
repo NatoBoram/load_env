@@ -1,4 +1,6 @@
-import type { UUID } from "crypto"
+import type { UUID } from "node:crypto"
+import { toBool } from "./boolean.ts"
+import { isUuid } from "./uuid.ts"
 
 /**
  * Obtains an environment variable as a boolean.
@@ -8,17 +10,10 @@ import type { UUID } from "crypto"
  * export const CI = envBool("CI", false)
  */
 export function envBool(key: string, fallback?: boolean): boolean {
-	const str = process.env[key]?.trim() || fallback?.toString().trim()
-	if (str === undefined) throw new Error(`$${key} is missing`)
+	const value = process.env[key]?.trim() || fallback?.toString().trim()
+	if (value === undefined) throw new Error(`$${key} is missing`)
 
-	switch (str) {
-		case true.toString():
-			return true
-		case false.toString():
-			return false
-		default:
-			throw new Error(`$${key} is not a boolean: ${str}`)
-	}
+	return toBool(key, value)
 }
 
 /**
@@ -96,6 +91,97 @@ export function envUrl(key: string, fallback?: URL): URL {
 export function envUuid(key: string, fallback?: UUID): UUID {
 	const str = process.env[key]?.trim() || fallback?.toString().trim()
 	if (str === undefined) throw new Error(`$${key} is missing`)
+	if (!isUuid(str)) throw new Error(`$${key} is not a UUID: ${str}`)
+	return str
+}
 
-	return str as UUID
+/**
+ * Obtains an optional environment variable as a boolean.
+ *
+ * @example
+ *
+ * export const CI = maybeEnvBool("CI")
+ */
+export function maybeEnvBool(key: string): boolean | undefined {
+	const str = process.env[key]?.trim()
+	if (!str) return undefined
+
+	return toBool(key, str)
+}
+
+/**
+ * Obtains an optional environment variable as a floating-point number.
+ *
+ * @example
+ *
+ * export const ZOOM = maybeEnvFloat("ZOOM")
+ */
+export function maybeEnvFloat(key: string): number | undefined {
+	const str = process.env[key]?.trim()
+	if (!str) return undefined
+
+	const num = parseFloat(str)
+	if (isNaN(num)) throw new Error(`$${key} is not a number: ${str}`)
+	return num
+}
+
+/**
+ * Obtains an optional environment variable as an integer.
+ *
+ * @example
+ *
+ * export const PORT = maybeEnvInt("PORT")
+ */
+export function maybeEnvInt(key: string): number | undefined {
+	const str = process.env[key]?.trim()
+	if (!str) return undefined
+
+	const num = parseInt(str)
+	if (isNaN(num)) throw new Error(`$${key} is not a number: ${str}`)
+	return num
+}
+
+/**
+ * Obtains an optional environment variable as a string.
+ *
+ * @example
+ *
+ * export const NODE_ENV = maybeEnvString("NODE_ENV")
+ */
+export function maybeEnvString(key: string): string | undefined {
+	const str = process.env[key]?.trim()
+	if (!str) return undefined
+	return str
+}
+
+/**
+ * Obtains an optional environment variable as a URL.
+ *
+ * @example
+ *
+ * export const DATABASE_URL = maybeEnvUrl("DATABASE_URL")
+ */
+export function maybeEnvUrl(key: string): URL | undefined {
+	const str = process.env[key]?.trim()
+	if (!str) return undefined
+
+	try {
+		return new URL(str)
+	} catch (error) {
+		throw new Error(`$${key} is not a URL: ${str}`, { cause: error })
+	}
+}
+
+/**
+ * Obtains an optional environment variable as a UUID.
+ *
+ * @example
+ *
+ * export const TOKEN = maybeEnvUuid("TOKEN")
+ */
+export function maybeEnvUuid(key: string): UUID | undefined {
+	const str = process.env[key]?.trim()
+	if (!str) return undefined
+	if (!isUuid(str)) throw new Error(`$${key} is not a UUID: ${str}`)
+	return str
 }

@@ -9,8 +9,8 @@ import type { LoadedEnv } from "./loaded_env.ts"
  *
  * Environment variables are loaded in the following order:
  *
- * 1. `.env.development.local`
- * 2. `.env.development`
+ * 1. `.env.${NODE_ENV}.local`
+ * 2. `.env.${NODE_ENV}`
  * 3. `.env.local`
  * 4. `.env`
  */
