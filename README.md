@@ -36,17 +36,34 @@ import {
 	envUrl,
 	envUuid,
 	loadEnv,
+	maybeEnvBool,
+	maybeEnvFloat,
+	maybeEnvInt,
+	maybeEnvString,
+	maybeEnvUrl,
+	maybeEnvUuid,
 } from "@natoboram/load_env"
 import type { UUID } from "crypto"
 
 loadEnv()
 
-export const API_URL: URL = envUrl("API_URL")
-export const ENABLE_TELEMETRY: boolean = envBool("ENABLE_TELEMETRY")
-export const OFFSET: number = envFloat("OFFSET")
-export const PORT: number = envInt("PORT")
-export const TOKEN: UUID = envUuid("TOKEN")
-export const USERNAME: string = envString("USERNAME")
+export const EXAMPLE_BOOLEAN: boolean = envBool("EXAMPLE_BOOLEAN")
+export const EXAMPLE_FLOAT: number = envFloat("EXAMPLE_FLOAT")
+export const EXAMPLE_INT: number = envInt("EXAMPLE_INT")
+export const EXAMPLE_STRING: string = envString("EXAMPLE_STRING")
+export const EXAMPLE_URL: URL = envUrl("EXAMPLE_URL")
+export const EXAMPLE_UUID: UUID = envUuid("EXAMPLE_UUID")
+
+export const OPTIONAL_BOOL: boolean | undefined = maybeEnvBool("EXAMPLE_BOOL")
+export const OPTIONAL_FLOAT: number | undefined = maybeEnvFloat("EXAMPLE_FLOAT")
+export const OPTIONAL_INT: number | undefined = maybeEnvInt("EXAMPLE_INT")
+export const OPTIONAL_STR: string | undefined = maybeEnvString("EXAMPLE_STR")
+export const OPTIONAL_URL: URL | undefined = maybeEnvUrl("EXAMPLE_URL")
+export const OPTIONAL_UUID: UUID | undefined = maybeEnvUuid("EXAMPLE_UUID")
 ```
 
-Note that `envUuid` doesn't actually check if the string is a valid UUID.
+Non-optional functions support a default value as the second argument.
+
+```ts
+export const EXAMPLE_STRING: string = envString("EXAMPLE_STRING", "default")
+```
