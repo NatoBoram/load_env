@@ -23,6 +23,11 @@ describe("envBool", () => {
 		expect(actual).toBe(true)
 	})
 
+	test("falsy", ({ expect }) => {
+		const actual = envBool("EXAMPLE_FALSY_BOOL")
+		expect(actual).toBe(false)
+	})
+
 	test("fallback", ({ expect }) => {
 		const actual = envBool("EXAMPLE_NO_BOOL", true)
 		expect(actual).toBe(true)
@@ -159,6 +164,11 @@ describe("maybeEnvBool", () => {
 	test("valid", ({ expect }) => {
 		const actual = maybeEnvBool("EXAMPLE_BOOL")
 		expect(actual).toBe(true)
+	})
+
+	test("falsy", ({ expect }) => {
+		const actual = maybeEnvBool("EXAMPLE_FALSY_BOOL")
+		expect(actual).toBe(false)
 	})
 
 	test("invalid", ({ expect }) => {
