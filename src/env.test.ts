@@ -34,11 +34,15 @@ describe("envBool", () => {
 	})
 
 	test("invalid", ({ expect }) => {
-		expect(() => envBool("EXAMPLE_INVALID_BOOL")).toThrow()
+		expect(() => envBool("EXAMPLE_INVALID_BOOL")).toThrow(
+			"$EXAMPLE_INVALID_BOOL is not a boolean: EXAMPLE_INVALID_BOOL",
+		)
 	})
 
 	test("empty", ({ expect }) => {
-		expect(() => envBool("EXAMPLE_NO_BOOL")).toThrow()
+		expect(() => envBool("EXAMPLE_NO_BOOL")).toThrow(
+			"$EXAMPLE_NO_BOOL is missing",
+		)
 	})
 })
 
@@ -60,11 +64,15 @@ describe("envFloat", () => {
 	})
 
 	test("empty", ({ expect }) => {
-		expect(() => envFloat("EXAMPLE_NO_FLOAT")).toThrow()
+		expect(() => envFloat("EXAMPLE_NO_FLOAT")).toThrow(
+			"$EXAMPLE_NO_FLOAT is missing",
+		)
 	})
 
 	test("invalid", ({ expect }) => {
-		expect(() => envFloat("EXAMPLE_INVALID_FLOAT")).toThrow()
+		expect(() => envFloat("EXAMPLE_INVALID_FLOAT")).toThrow(
+			"$EXAMPLE_INVALID_FLOAT is not a number: EXAMPLE_INVALID_FLOAT",
+		)
 	})
 })
 
@@ -85,11 +93,13 @@ describe("envInt", () => {
 	})
 
 	test("empty", ({ expect }) => {
-		expect(() => envInt("EXAMPLE_NO_INT")).toThrow()
+		expect(() => envInt("EXAMPLE_NO_INT")).toThrow("$EXAMPLE_NO_INT is missing")
 	})
 
 	test("invalid", ({ expect }) => {
-		expect(() => envInt("EXAMPLE_INVALID_INT")).toThrow()
+		expect(() => envInt("EXAMPLE_INVALID_INT")).toThrow(
+			"$EXAMPLE_INVALID_INT is not a number: EXAMPLE_INVALID_INT",
+		)
 	})
 })
 
@@ -105,11 +115,15 @@ describe("envString", () => {
 	})
 
 	test("optional", ({ expect }) => {
-		expect(() => envString("EXAMPLE_NO_STRING", "")).toThrow()
+		expect(() => envString("EXAMPLE_NO_STRING", "")).toThrow(
+			"$EXAMPLE_NO_STRING is missing",
+		)
 	})
 
 	test("empty", ({ expect }) => {
-		expect(() => envString("EXAMPLE_NO_STRING")).toThrow()
+		expect(() => envString("EXAMPLE_NO_STRING")).toThrow(
+			"$EXAMPLE_NO_STRING is missing",
+		)
 	})
 })
 
@@ -129,11 +143,13 @@ describe("envUrl", () => {
 	})
 
 	test("invalid", ({ expect }) => {
-		expect(() => envUrl("EXAMPLE_INVALID_URL")).toThrow()
+		expect(() => envUrl("EXAMPLE_INVALID_URL")).toThrow(
+			"$EXAMPLE_INVALID_URL is not a URL: EXAMPLE_INVALID_URL",
+		)
 	})
 
 	test("empty", ({ expect }) => {
-		expect(() => envUrl("EXAMPLE_NO_URL")).toThrow()
+		expect(() => envUrl("EXAMPLE_NO_URL")).toThrow("$EXAMPLE_NO_URL is missing")
 	})
 })
 
@@ -152,11 +168,15 @@ describe("envUuid", () => {
 	})
 
 	test("empty", ({ expect }) => {
-		expect(() => envUuid("EXAMPLE_NO_UUID")).toThrow()
+		expect(() => envUuid("EXAMPLE_NO_UUID")).toThrow(
+			"$EXAMPLE_NO_UUID is missing",
+		)
 	})
 
 	test("invalid", ({ expect }) => {
-		expect(() => envUuid("EXAMPLE_INVALID_UUID")).toThrow()
+		expect(() => envUuid("EXAMPLE_INVALID_UUID")).toThrow(
+			"$EXAMPLE_INVALID_UUID is not a UUID: EXAMPLE_INVALID_UUID",
+		)
 	})
 })
 
@@ -172,7 +192,9 @@ describe("maybeEnvBool", () => {
 	})
 
 	test("invalid", ({ expect }) => {
-		expect(() => maybeEnvBool("EXAMPLE_INVALID_BOOL")).toThrow()
+		expect(() => maybeEnvBool("EXAMPLE_INVALID_BOOL")).toThrow(
+			"$EXAMPLE_INVALID_BOOL is not a boolean: EXAMPLE_INVALID_BOOL",
+		)
 	})
 
 	test("empty", ({ expect }) => {
@@ -198,7 +220,9 @@ describe("maybeEnvFloat", () => {
 	})
 
 	test("invalid", ({ expect }) => {
-		expect(() => maybeEnvFloat("EXAMPLE_INVALID_FLOAT")).toThrow()
+		expect(() => maybeEnvFloat("EXAMPLE_INVALID_FLOAT")).toThrow(
+			"$EXAMPLE_INVALID_FLOAT is not a number: EXAMPLE_INVALID_FLOAT",
+		)
 	})
 })
 
@@ -214,7 +238,9 @@ describe("maybeEnvInt", () => {
 	})
 
 	test("invalid", ({ expect }) => {
-		expect(() => maybeEnvInt("EXAMPLE_INVALID_INT")).toThrow()
+		expect(() => maybeEnvInt("EXAMPLE_INVALID_INT")).toThrow(
+			"$EXAMPLE_INVALID_INT is not a number: EXAMPLE_INVALID_INT",
+		)
 	})
 })
 
@@ -245,7 +271,9 @@ describe("maybeEnvUrl", () => {
 	})
 
 	test("invalid", ({ expect }) => {
-		expect(() => maybeEnvUrl("EXAMPLE_INVALID_URL")).toThrow()
+		expect(() => maybeEnvUrl("EXAMPLE_INVALID_URL")).toThrow(
+			"$EXAMPLE_INVALID_URL is not a URL: EXAMPLE_INVALID_URL",
+		)
 	})
 })
 
@@ -261,6 +289,8 @@ describe("maybeEnvUuid", () => {
 	})
 
 	test("invalid", ({ expect }) => {
-		expect(() => maybeEnvUuid("EXAMPLE_INVALID_UUID")).toThrow()
+		expect(() => maybeEnvUuid("EXAMPLE_INVALID_UUID")).toThrow(
+			"$EXAMPLE_INVALID_UUID is not a UUID: EXAMPLE_INVALID_UUID",
+		)
 	})
 })
