@@ -95,6 +95,13 @@ export function envUuid(key: string, fallback?: UUID): UUID {
 	return str
 }
 
+/**
+ * Obtains an optional environment variable as a boolean.
+ *
+ * @example
+ *
+ * export const CI = maybeEnvBool("CI")
+ */
 export function maybeEnvBool(key: string): boolean | undefined {
 	const str = process.env[key]?.trim()
 	if (!str) return undefined
@@ -102,6 +109,13 @@ export function maybeEnvBool(key: string): boolean | undefined {
 	return toBool(key, str)
 }
 
+/**
+ * Obtains an optional environment variable as a floating-point number.
+ *
+ * @example
+ *
+ * export const ZOOM = maybeEnvFloat("ZOOM")
+ */
 export function maybeEnvFloat(key: string): number | undefined {
 	const str = process.env[key]?.trim()
 	if (!str) return undefined
@@ -111,6 +125,13 @@ export function maybeEnvFloat(key: string): number | undefined {
 	return num
 }
 
+/**
+ * Obtains an optional environment variable as an integer.
+ *
+ * @example
+ *
+ * export const PORT = maybeEnvInt("PORT")
+ */
 export function maybeEnvInt(key: string): number | undefined {
 	const str = process.env[key]?.trim()
 	if (!str) return undefined
@@ -120,12 +141,26 @@ export function maybeEnvInt(key: string): number | undefined {
 	return num
 }
 
+/**
+ * Obtains an optional environment variable as a string.
+ *
+ * @example
+ *
+ * export const NODE_ENV = maybeEnvString("NODE_ENV")
+ */
 export function maybeEnvString(key: string): string | undefined {
 	const str = process.env[key]?.trim()
 	if (!str) return undefined
 	return str
 }
 
+/**
+ * Obtains an optional environment variable as a URL.
+ *
+ * @example
+ *
+ * export const DATABASE_URL = maybeEnvUrl("DATABASE_URL")
+ */
 export function maybeEnvUrl(key: string): URL | undefined {
 	const str = process.env[key]?.trim()
 	if (!str) return undefined
@@ -137,6 +172,13 @@ export function maybeEnvUrl(key: string): URL | undefined {
 	}
 }
 
+/**
+ * Obtains an optional environment variable as a UUID.
+ *
+ * @example
+ *
+ * export const TOKEN = maybeEnvUuid("TOKEN")
+ */
 export function maybeEnvUuid(key: string): UUID | undefined {
 	const str = process.env[key]?.trim()
 	if (!str) return undefined
