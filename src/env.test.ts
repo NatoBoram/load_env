@@ -1,6 +1,7 @@
 import { beforeAll, describe, test } from "vitest"
 import {
 	envBool,
+	envDate,
 	envFloat,
 	envInt,
 	envString,
@@ -8,6 +9,7 @@ import {
 	envUrl,
 	envUuid,
 	maybeEnvBool,
+	maybeEnvDate,
 	maybeEnvFloat,
 	maybeEnvInt,
 	maybeEnvString,
@@ -200,6 +202,34 @@ describe("envUuid", () => {
 	})
 })
 
+describe("envDate", () => {
+	const date = new Date("2025-05-28T00:50:58.816Z")
+
+	test("valid", ({ expect }) => {
+		const actual = envDate("EXAMPLE_DATE")
+		expect(actual).toBeInstanceOf(Date)
+		expect(actual.toISOString()).toBe(date.toISOString())
+	})
+
+	test("fallback", ({ expect }) => {
+		const actual = envDate("EXAMPLE_NO_DATE", date)
+		expect(actual).toBeInstanceOf(Date)
+		expect(actual.toISOString()).toBe(date.toISOString())
+	})
+
+	test("invalid", ({ expect }) => {
+		expect(() => envDate("EXAMPLE_INVALID_DATE")).toThrow(
+			"$EXAMPLE_INVALID_DATE is not a valid Date: EXAMPLE_INVALID_DATE",
+		)
+	})
+
+	test("empty", ({ expect }) => {
+		expect(() => envDate("EXAMPLE_NO_DATE")).toThrow(
+			"$EXAMPLE_NO_DATE is missing",
+		)
+	})
+})
+
 describe("maybeEnvBool", () => {
 	test("valid", ({ expect }) => {
 		const actual = maybeEnvBool("EXAMPLE_BOOL")
@@ -323,6 +353,27 @@ describe("maybeEnvUuid", () => {
 	test("invalid", ({ expect }) => {
 		expect(() => maybeEnvUuid("EXAMPLE_INVALID_UUID")).toThrow(
 			"$EXAMPLE_INVALID_UUID is not a UUID: EXAMPLE_INVALID_UUID",
+		)
+	})
+})
+
+describe("maybeEnvDate", () => {
+	const date = new Date("2025-05-28T00:50:58.816Z")
+
+	test("valid", ({ expect }) => {
+		const actual = maybeEnvDate("EXAMPLE_DATE")
+		expect(actual).toBeInstanceOf(Date)
+		expect(actual?.toISOString()).toBe(date.toISOString())
+	})
+
+	test("empty", ({ expect }) => {
+		const actual = maybeEnvDate("EXAMPLE_NO_DATE")
+		expect(actual).toBe(undefined)
+	})
+
+	test("invalid", ({ expect }) => {
+		expect(() => maybeEnvDate("EXAMPLE_INVALID_DATE")).toThrow(
+			"$EXAMPLE_INVALID_DATE is not a valid Date: EXAMPLE_INVALID_DATE",
 		)
 	})
 })

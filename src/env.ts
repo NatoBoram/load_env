@@ -112,6 +112,24 @@ export function envUuid(key: string, fallback?: UUID): UUID {
 }
 
 /**
+ * Obtains an environment variable as a Date.
+ *
+ * @example
+ *
+ * export const START_DATE = envDate("START_DATE")
+ */
+export function envDate(key: string, fallback?: Date): Date {
+	const str = process.env[key]?.trim() || fallback?.toISOString().trim()
+	if (str === undefined) throw new Error(`$${key} is missing`)
+
+	const date = new Date(str)
+	if (isNaN(date.getTime()))
+		throw new Error(`$${key} is not a valid Date: ${str}`)
+
+	return date
+}
+
+/**
  * Obtains an optional environment variable as a boolean.
  *
  * @example
@@ -217,4 +235,22 @@ export function maybeEnvUuid(key: string): UUID | undefined {
 	if (!str) return undefined
 	if (!isUuid(str)) throw new Error(`$${key} is not a UUID: ${str}`)
 	return str
+}
+
+/**
+ * Obtains an optional environment variable as a Date.
+ *
+ * @example
+ *
+ * export const END_DATE = maybeEnvDate("END_DATE")
+ */
+export function maybeEnvDate(key: string): Date | undefined {
+	const str = process.env[key]?.trim()
+	if (!str) return undefined
+
+	const date = new Date(str)
+	if (isNaN(date.getTime()))
+		throw new Error(`$${key} is not a valid Date: ${str}`)
+
+	return date
 }
