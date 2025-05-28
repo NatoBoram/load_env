@@ -64,6 +64,22 @@ export function envString(key: string, fallback?: string): string {
 }
 
 /**
+ * Obtains an environment variable as a comma-separated list of strings.
+ *
+ * @example
+ *
+ * export const ALLOWED_ORIGINS = envStrings("ALLOWED_ORIGINS", ["*"])
+ */
+export function envStrings(key: string, fallback?: string[]): string[] {
+	const str = process.env[key]?.trim() || fallback?.join(",").trim()
+	if (str === undefined) throw new Error(`$${key} is missing`)
+	return str
+		.split(",")
+		.map(s => s.trim())
+		.filter(s => s)
+}
+
+/**
  * Obtains an environment variable as a URL.
  *
  * @example
@@ -152,6 +168,23 @@ export function maybeEnvString(key: string): string | undefined {
 	const str = process.env[key]?.trim()
 	if (!str) return undefined
 	return str
+}
+
+/**
+ * Obtains an optional environment variable as a comma-separated list of
+ * strings.
+ *
+ * @example
+ *
+ * export const ALLOWED_ORIGINS = maybeEnvStrings("ALLOWED_ORIGINS")
+ */
+export function maybeEnvStrings(key: string): string[] | undefined {
+	const str = process.env[key]?.trim()
+	if (!str) return undefined
+	return str
+		.split(",")
+		.map(s => s.trim())
+		.filter(s => s)
 }
 
 /**

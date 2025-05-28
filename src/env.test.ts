@@ -4,12 +4,14 @@ import {
 	envFloat,
 	envInt,
 	envString,
+	envStrings,
 	envUrl,
 	envUuid,
 	maybeEnvBool,
 	maybeEnvFloat,
 	maybeEnvInt,
 	maybeEnvString,
+	maybeEnvStrings,
 	maybeEnvUrl,
 	maybeEnvUuid,
 } from "./env.ts"
@@ -123,6 +125,24 @@ describe("envString", () => {
 	test("empty", ({ expect }) => {
 		expect(() => envString("EXAMPLE_NO_STRING")).toThrow(
 			"$EXAMPLE_NO_STRING is missing",
+		)
+	})
+})
+
+describe("envStrings", () => {
+	test("valid", ({ expect }) => {
+		const actual = envStrings("EXAMPLE_STRINGS")
+		expect(actual).toStrictEqual(["example1", "example2", "example3"])
+	})
+
+	test("fallback", ({ expect }) => {
+		const actual = envStrings("EXAMPLE_NO_STRINGS", ["default1", "default2"])
+		expect(actual).toStrictEqual(["default1", "default2"])
+	})
+
+	test("empty", ({ expect }) => {
+		expect(() => envStrings("EXAMPLE_NO_STRINGS")).toThrow(
+			"$EXAMPLE_NO_STRINGS is missing",
 		)
 	})
 })
@@ -252,6 +272,18 @@ describe("maybeEnvString", () => {
 
 	test("empty", ({ expect }) => {
 		const actual = maybeEnvString("EXAMPLE_NO_STRING")
+		expect(actual).toBe(undefined)
+	})
+})
+
+describe("maybeEnvStrings", () => {
+	test("valid", ({ expect }) => {
+		const actual = maybeEnvStrings("EXAMPLE_STRINGS")
+		expect(actual).toStrictEqual(["example1", "example2", "example3"])
+	})
+
+	test("empty", ({ expect }) => {
+		const actual = maybeEnvStrings("EXAMPLE_NO_STRINGS")
 		expect(actual).toBe(undefined)
 	})
 })
