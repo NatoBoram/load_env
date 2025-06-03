@@ -28,7 +28,7 @@ jobs:
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - run: pnpm run build --noEmit
       - run: pnpm run lint
-      - run: pnpm run test
+      - run: pnpm run test:coverage
 
   fix:
     runs-on: ubuntu-latest

@@ -40,6 +40,7 @@
 		"lint": "eslint . && markdownlint-cli2 \"**/*.md\" && prettier --check .",
 		"lint:fix": "eslint --fix --quiet .; markdownlint-cli2 \"**/*.md\" --fix; prettier --list-different --write .",
 		"test": "vitest run",
+		"test:coverage": "vitest run --coverage",
 		"test:watch": "vitest"
 	},
 	"dependencies": {
@@ -48,6 +49,7 @@
 	"devDependencies": {
 		"@eslint/js": "^9.27.0",
 		"@types/node": "^22.15.23",
+		"@vitest/coverage-v8": "^3.1.4",
 		"eslint": "^9.27.0",
 		"eslint-config-prettier": "^10.1.5",
 		"globals": "^16.2.0",
