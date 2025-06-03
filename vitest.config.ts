@@ -7,7 +7,7 @@ const config: ViteUserConfig = defineConfig({
 		include: ["src/**/*.test.ts"],
 		coverage: {
 			include: ["src/**/*.ts"],
-			reporter: ["text", "json-summary"],
+			reporter: ["html-spa", "json-summary", "text"],
 		},
 	},
 })

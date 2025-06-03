@@ -37,6 +37,8 @@ jobs:
           path: coverage/coverage-summary.json
           if-no-files-found: error
 
+      - uses: actions/dependency-review-action@v4
+
   fix:
     runs-on: ubuntu-latest
 
