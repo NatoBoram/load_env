@@ -3,8 +3,6 @@ import prettier from "eslint-config-prettier"
 import globals from "globals"
 import tseslint from "typescript-eslint"
 
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
-
 export default tseslint.config(
 	{
 		languageOptions: {
@@ -71,6 +69,7 @@ export default tseslint.config(
 	{
 		ignores: [
 			".pnpm-store/",
+			"coverage/",
 			"dist/",
 			"docs/",
 			"node_modules/",

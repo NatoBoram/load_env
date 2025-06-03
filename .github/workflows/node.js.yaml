@@ -28,7 +28,16 @@ jobs:
       - run: pnpm install --frozen-lockfile --strict-peer-dependencies
       - run: pnpm run build --noEmit
       - run: pnpm run lint
-      - run: pnpm run test
+      - run: pnpm run test:coverage
+
+      - uses: actions/upload-artifact@v4
+        if: github.actor != 'nektos/act'
+        with:
+          name: coverage
+          path: coverage
+          if-no-files-found: error
+
+      - uses: actions/dependency-review-action@v4
 
   fix:
     runs-on: ubuntu-latest
