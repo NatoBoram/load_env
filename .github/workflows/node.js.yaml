@@ -34,7 +34,7 @@ jobs:
         if: github.actor != 'nektos/act'
         with:
           name: coverage
-          path: coverage/coverage-summary.json
+          path: coverage
           if-no-files-found: error
 
       - uses: actions/dependency-review-action@v4
