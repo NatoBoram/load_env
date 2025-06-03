@@ -19,7 +19,7 @@ import {
 } from "./env.ts"
 import { loadEnv } from "./load_env.ts"
 
-beforeAll(loadEnv)
+beforeAll(() => loadEnv())
 
 describe("envBool", () => {
 	test("valid", ({ expect }) => {
