@@ -10,11 +10,19 @@ describe("loadEnv", () => {
 		expect(ENV_FILE).toBe("cwd")
 	})
 
-	test("test", ({ expect }) => {
+	test("path", ({ expect }) => {
 		loadEnv({ path: "test" })
 
 		const ENV_FILE = envString("ENV_FILE")
 		expect(ENV_FILE).toBe("test")
+	})
+
+	test("development", ({ expect }) => {
+		delete process.env["NODE_ENV"]
+		loadEnv()
+
+		const ENV_FILE = envString("ENV_FILE")
+		expect(ENV_FILE).toBe("development")
 	})
 })
 
@@ -25,4 +33,5 @@ afterEach(() => {
 	}
 
 	delete process.env["ENV_FILE"]
+	process.env["NODE_ENV"] = "test"
 })
