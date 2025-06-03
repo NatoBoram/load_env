@@ -16,7 +16,7 @@ import type { LoadedEnv } from "./loaded_env.ts"
  * 4. `.env`
  *
  * @param options Additional options to be passed to `dotenv.config` where
- * `path` is used as a prefix for `.env` files.
+ * `path` is where to find `.env` files.
  */
 export function loadEnv(options?: LoadEnvOptions): LoadedEnv {
 	const NODE_ENV = process.env["NODE_ENV"]?.trim() || "development"
@@ -45,6 +45,6 @@ function prepend(file: string, path: string | undefined): string {
 }
 
 export interface LoadEnvOptions extends Omit<DotenvConfigOptions, "path"> {
-	/** A prefix for `.env` files. */
+	/** Where to find `.env` files. */
 	readonly path?: string | undefined
 }
