@@ -30,6 +30,13 @@ jobs:
       - run: pnpm run lint
       - run: pnpm run test:coverage
 
+      - uses: actions/upload-artifact@v4
+        if: github.actor != 'nektos/act'
+        with:
+          name: coverage
+          path: coverage/coverage-summary.json
+          if-no-files-found: error
+
   fix:
     runs-on: ubuntu-latest
 
