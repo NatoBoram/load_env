@@ -33,7 +33,7 @@
 	"main": "dist/index.js",
 	"repository": "github:NatoBoram/load_env",
 	"scripts": {
-		"build": "tsc",
+		"build": "tsgo",
 		"clean": "rm -rf dist docs node_modules tsconfig.tsbuildinfo",
 		"docs": "typedoc",
 		"format": "prettier --write .",
@@ -49,6 +49,7 @@
 	"devDependencies": {
 		"@eslint/js": "^9.28.0",
 		"@types/node": "^22.15.29",
+		"@typescript/native-preview": "^7.0.0-dev",
 		"@vitest/coverage-v8": "^3.2.0",
 		"eslint": "^9.28.0",
 		"eslint-config-prettier": "^10.1.5",
