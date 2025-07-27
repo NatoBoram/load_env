@@ -3,6 +3,11 @@ import { config } from "dotenv"
 import { join } from "path"
 import type { LoadedEnv } from "./loaded_env.ts"
 
+export interface LoadEnvOptions extends Omit<DotenvConfigOptions, "path"> {
+	/** Where to find `.env` files. */
+	readonly path?: string | undefined
+}
+
 /** Loads environment variables from the `.env` files. `NODE_ENV` has to be set
  * in the environment and will not be picked up from the filesystem.
  *
@@ -42,9 +47,4 @@ export function loadEnv(options?: LoadEnvOptions): LoadedEnv {
 
 function prepend(file: string, path: string | undefined): string {
 	return path ? join(path, file) : file
-}
-
-export interface LoadEnvOptions extends Omit<DotenvConfigOptions, "path"> {
-	/** Where to find `.env` files. */
-	readonly path?: string | undefined
 }
