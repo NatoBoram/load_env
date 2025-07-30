@@ -6,15 +6,8 @@ on:
       - v*
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write # Upload the release files
-      id-token: write # Add `--provenance`
-      packages: write # Publish the package
-
-    if: github.actor != 'nektos/act'
 
     steps:
       - uses: actions/checkout@v4
@@ -27,25 +20,75 @@ jobs:
           node-version: latest
       - run: pnpm install
       - run: pnpm build
+      - run: pnpm pack --pack-gzip-level 9
 
+      - uses: actions/upload-artifact@v4
+        if: github.actor != 'nektos/act'
+        with:
+          name: natoboram-load_env-${{ github.ref_name }}.tgz
+          path: natoboram-load_env-*.tgz
+          if-no-files-found: error
+
+  publish:
+    permissions:
+      id-token: write # Add `--provenance`
+      packages: write # Publish the package
+
+    needs: build
+    if: github.actor != 'nektos/act'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: ${{ matrix.environment }}
+      url: ${{ steps.url.outputs.url }}
+
+    steps:
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
       - uses: actions/setup-node@v4
         with:
-          registry-url: https://npm.pkg.github.com
+          registry-url: ${{ vars.REGISTRY_URL }}
           scope: "@natoboram"
-      - run: pnpm publish --access public --no-git-checks --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-node@v4
+      - uses: actions/download-artifact@v4
         with:
-          registry-url: https://registry.npmjs.org
-          scope: "@natoboram"
-      - run: pnpm publish --access public --no-git-checks --provenance
+          name: natoboram-load_env-${{ github.ref_name }}.tgz
+
+      - run: pnpm publish natoboram-load_env-*.tgz --access public --no-git-checks --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
-      - run: pnpm pack --pack-gzip-level 9
+      - id: url
+        run: echo 'url=${{ vars.URL }}' >> "$GITHUB_OUTPUT"
+
+    strategy:
+      matrix:
+        environment:
+          - github-packages-registry
+          - npm-public-registry
+
+  release:
+    permissions:
+      contents: write # Upload the release files
+
+    needs: build
+    if: github.actor != 'nektos/act'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-releases
+      url: ${{ steps.url.outputs.url }}
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: natoboram-load_env-${{ github.ref_name }}.tgz
+
       - run: gh release create "$VERSION" --generate-notes --title "$VERSION" --verify-tag natoboram-load_env-*.tgz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ github.ref_name }}
+
+      - id: url
+        run: echo 'url=${{ vars.URL }}' >> "$GITHUB_OUTPUT"
