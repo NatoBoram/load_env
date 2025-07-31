@@ -18,6 +18,8 @@
 		"package.json": "bun.lockb, package-lock.json, pnpm-lock.yaml, yarn.lock",
 		"tsconfig.json": "tsconfig.*.json, tsconfig.tsbuildinfo"
 	},
-	"typescript.experimental.useTsgo": true,
+	"files.associations": {
+		"SECRET_*": "plaintext"
+	},
 	"typescript.tsdk": "node_modules/typescript/lib"
 }
