@@ -19,6 +19,9 @@ export async function maybeSecretBool(
 	return toBool(key, str)
 }
 
+/**
+ * Obtains an optional secret as a {@link Date}.
+ */
 export async function maybeSecretDate(key: string): Promise<Date | undefined> {
 	const str = await maybeSecret(key)
 	if (!str) return undefined
@@ -45,10 +48,6 @@ export async function maybeSecretFloat(
 
 /**
  * Obtains an optional secret as an integer.
- *
- * @example
- *
- * export const PORT = maybeSecretInt("PORT")
  */
 export async function maybeSecretInt(key: string): Promise<number | undefined> {
 	const str = await maybeSecret(key)
@@ -61,10 +60,6 @@ export async function maybeSecretInt(key: string): Promise<number | undefined> {
 
 /**
  * Obtains an optional secret as a string.
- *
- * @example
- *
- * export const NODE_ENV = maybeSecretString("NODE_ENV")
  */
 export async function maybeSecretString(
 	key: string,
@@ -74,6 +69,9 @@ export async function maybeSecretString(
 	return str
 }
 
+/**
+ * Obtains an optional secret as an array of strings.
+ */
 export async function maybeSecretStrings(
 	key: string,
 ): Promise<string[] | undefined> {
@@ -86,6 +84,13 @@ export async function maybeSecretStrings(
 		.filter(Boolean)
 }
 
+/**
+ * Obtains an optional secret as a URL.
+ *
+ * @example
+ *
+ * const API_URL = maybeSecretUrl("API_URL")
+ */
 export async function maybeSecretUrl(key: string): Promise<URL | undefined> {
 	const str = await maybeSecret(key)
 	if (str === undefined) return undefined
@@ -102,7 +107,7 @@ export async function maybeSecretUrl(key: string): Promise<URL | undefined> {
  *
  * @example
  *
- * export const TOKEN = maybeSecretUuid("TOKEN")
+ * const API_TOKEN = maybeSecretUuid("API_TOKEN")
  */
 export async function maybeSecretUuid(key: string): Promise<UUID | undefined> {
 	const str = await maybeSecret(key)
@@ -111,6 +116,9 @@ export async function maybeSecretUuid(key: string): Promise<UUID | undefined> {
 	return str
 }
 
+/**
+ * Loads a secret from the filesystem.
+ */
 async function secret(key: string): Promise<string> {
 	const envPath = process.env[key]?.trim()
 	const path = envPath || `/run/secrets/${key}`
@@ -152,10 +160,6 @@ async function secret(key: string): Promise<string> {
 
 /**
  * Obtains a secret as a boolean.
- *
- * @example
- *
- * export const CI = secretBool("CI", false)
  */
 export async function secretBool(
 	key: string,
@@ -173,6 +177,9 @@ export async function secretBool(
 	return toBool(key, value)
 }
 
+/**
+ * Obtains a secret as a {@link Date}.
+ */
 export async function secretDate(key: string, fallback?: Date): Promise<Date> {
 	if (fallback) {
 		const date = await maybeSecretDate(key)
@@ -192,10 +199,6 @@ export async function secretDate(key: string, fallback?: Date): Promise<Date> {
 
 /**
  * Obtains a secret as a floating-point number.
- *
- * @example
- *
- * export const ZOOM = secretFloat("ZOOM", 1.0)
  */
 export async function secretFloat(
 	key: string,
@@ -217,10 +220,6 @@ export async function secretFloat(
 
 /**
  * Obtains a secret as an integer.
- *
- * @example
- *
- * export const PORT = secretInt("PORT", 3000)
  */
 export async function secretInt(
 	key: string,
@@ -242,10 +241,6 @@ export async function secretInt(
 
 /**
  * Obtains a secret as a string.
- *
- * @example
- *
- * export const NODE_ENV = secretString("NODE_ENV", "development")
  */
 export async function secretString(
 	key: string,
@@ -262,6 +257,9 @@ export async function secretString(
 	return str
 }
 
+/**
+ * Obtains a secret as an array of strings.
+ */
 export async function secretStrings(
 	key: string,
 	fallback?: string[],
@@ -281,6 +279,13 @@ export async function secretStrings(
 		.filter(Boolean)
 }
 
+/**
+ * Obtains a secret as a URL.
+ *
+ * @example
+ *
+ * export const API_URL = secretUrl("API_URL", new URL("https://example.com"))
+ */
 export async function secretUrl(key: string, fallback?: URL): Promise<URL> {
 	if (fallback) {
 		const url = await maybeSecretUrl(key)
