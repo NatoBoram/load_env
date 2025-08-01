@@ -60,15 +60,16 @@ export const EXAMPLE_STRINGS: string[] = envStrings("EXAMPLE_STRINGS")
 export const EXAMPLE_URL: URL = envUrl("EXAMPLE_URL")
 export const EXAMPLE_UUID: UUID = envUuid("EXAMPLE_UUID")
 
-export const OPTIONAL_BOOL: boolean | undefined = maybeEnvBool("EXAMPLE_BOOL")
-export const OPTIONAL_DATE: Date | undefined = maybeEnvDate("EXAMPLE_DATE")
-export const OPTIONAL_FLOAT: number | undefined = maybeEnvFloat("EXAMPLE_FLOAT")
-export const OPTIONAL_INT: number | undefined = maybeEnvInt("EXAMPLE_INT")
-export const OPTIONAL_STR: string | undefined = maybeEnvString("EXAMPLE_STR")
+export const OPTIONAL_BOOL: boolean | undefined = maybeEnvBool("OPTIONAL_BOOL")
+export const OPTIONAL_DATE: Date | undefined = maybeEnvDate("OPTIONAL_DATE")
+export const OPTIONAL_FLOAT: number | undefined =
+	maybeEnvFloat("OPTIONAL_FLOAT")
+export const OPTIONAL_INT: number | undefined = maybeEnvInt("OPTIONAL_INT")
+export const OPTIONAL_STR: string | undefined = maybeEnvString("OPTIONAL_STR")
 export const OPTIONAL_STRS: string[] | undefined =
 	maybeEnvStrings("OPTIONAL_STRS")
-export const OPTIONAL_URL: URL | undefined = maybeEnvUrl("EXAMPLE_URL")
-export const OPTIONAL_UUID: UUID | undefined = maybeEnvUuid("EXAMPLE_UUID")
+export const OPTIONAL_URL: URL | undefined = maybeEnvUrl("OPTIONAL_URL")
+export const OPTIONAL_UUID: UUID | undefined = maybeEnvUuid("OPTIONAL_UUID")
 ```
 
 There is also support for loading secrets from the filesystem.
