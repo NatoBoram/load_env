@@ -112,9 +112,15 @@ export async function maybeSecretUuid(key: string): Promise<UUID | undefined> {
 }
 
 async function secret(key: string): Promise<string> {
-	const path = process.env[key]?.trim() || `/run/secrets/${key}`
+	const envPath = process.env[key]?.trim()
+	const path = envPath || `/run/secrets/${key}`
 
 	const accessed = await access(path).catch((error: unknown) => {
+		if (!envPath)
+			return new Error(`$${key} is missing`, {
+				cause: { error, key, path: envPath },
+			})
+
 		return new Error(`Couldn't access secret at "${path}"`, {
 			cause: { error, key, path },
 		})
@@ -131,11 +137,10 @@ async function secret(key: string): Promise<string> {
 	if (content instanceof Error) throw content
 
 	if (!content) {
-		if (!process.env[key]?.trim()) {
+		if (!envPath)
 			throw new Error(`$${key} is missing`, {
-				cause: { content, key, path },
+				cause: { content, key, path: envPath },
 			})
-		}
 
 		throw new Error(`The secret at "${path}" is empty`, {
 			cause: { content, key, path },

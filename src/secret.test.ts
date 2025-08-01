@@ -48,6 +48,12 @@ describe("secretBool", () => {
 			'The secret at "test/SECRET_NO_BOOL" is empty',
 		)
 	})
+
+	test("unset", async ({ expect }) => {
+		await expect(() => secretBool("SECRET_UNSET_BOOL")).rejects.toThrow(
+			"$SECRET_UNSET_BOOL is missing",
+		)
+	})
 })
 
 describe("secretFloat", () => {
@@ -76,6 +82,12 @@ describe("secretFloat", () => {
 	test("invalid", async ({ expect }) => {
 		await expect(() => secretFloat("SECRET_INVALID_FLOAT")).rejects.toThrow(
 			"$SECRET_INVALID_FLOAT is not a number: SECRET_INVALID_FLOAT",
+		)
+	})
+
+	test("unset", async ({ expect }) => {
+		await expect(() => secretFloat("SECRET_UNSET_FLOAT")).rejects.toThrow(
+			"$SECRET_UNSET_FLOAT is missing",
 		)
 	})
 })
@@ -107,6 +119,12 @@ describe("secretInt", () => {
 			"$SECRET_INVALID_INT is not a number: SECRET_INVALID_INT",
 		)
 	})
+
+	test("unset", async ({ expect }) => {
+		await expect(() => secretInt("SECRET_UNSET_INT")).rejects.toThrow(
+			"$SECRET_UNSET_INT is missing",
+		)
+	})
 })
 
 describe("secretString", () => {
@@ -131,6 +149,12 @@ describe("secretString", () => {
 			'The secret at "test/SECRET_NO_STRING" is empty',
 		)
 	})
+
+	test("unset", async ({ expect }) => {
+		await expect(() => secretString("SECRET_UNSET_STRING")).rejects.toThrow(
+			"$SECRET_UNSET_STRING is missing",
+		)
+	})
 })
 
 describe("secretStrings", () => {
@@ -150,6 +174,12 @@ describe("secretStrings", () => {
 	test("empty", async ({ expect }) => {
 		await expect(() => secretStrings("SECRET_NO_STRINGS")).rejects.toThrow(
 			'The secret at "test/SECRET_NO_STRINGS" is empty',
+		)
+	})
+
+	test("unset", async ({ expect }) => {
+		await expect(() => secretStrings("SECRET_UNSET_STRINGS")).rejects.toThrow(
+			"$SECRET_UNSET_STRINGS is missing",
 		)
 	})
 })
@@ -180,6 +210,12 @@ describe("secretUrl", () => {
 			'The secret at "test/SECRET_NO_URL" is empty',
 		)
 	})
+
+	test("unset", async ({ expect }) => {
+		await expect(() => secretUrl("SECRET_UNSET_URL")).rejects.toThrow(
+			"$SECRET_UNSET_URL is missing",
+		)
+	})
 })
 
 describe("secretUuid", () => {
@@ -205,6 +241,12 @@ describe("secretUuid", () => {
 	test("invalid", async ({ expect }) => {
 		await expect(() => secretUuid("SECRET_INVALID_UUID")).rejects.toThrow(
 			"$SECRET_INVALID_UUID is not a UUID: SECRET_INVALID_UUID",
+		)
+	})
+
+	test("unset", async ({ expect }) => {
+		await expect(() => secretUuid("SECRET_UNSET_UUID")).rejects.toThrow(
+			"$SECRET_UNSET_UUID is missing",
 		)
 	})
 })
@@ -235,6 +277,12 @@ describe("secretDate", () => {
 			'The secret at "test/SECRET_NO_DATE" is empty',
 		)
 	})
+
+	test("unset", async ({ expect }) => {
+		await expect(() => secretDate("SECRET_UNSET_DATE")).rejects.toThrow(
+			"$SECRET_UNSET_DATE is missing",
+		)
+	})
 })
 
 describe("maybeSecretBool", () => {
@@ -256,6 +304,11 @@ describe("maybeSecretBool", () => {
 
 	test("empty", async ({ expect }) => {
 		const actual = await maybeSecretBool("SECRET_NO_BOOL")
+		expect(actual).toBe(undefined)
+	})
+
+	test("unset", async ({ expect }) => {
+		const actual = await maybeSecretBool("SECRET_UNSET_BOOL")
 		expect(actual).toBe(undefined)
 	})
 })
@@ -283,6 +336,11 @@ describe("maybeSecretFloat", () => {
 			"$SECRET_INVALID_FLOAT is not a number: SECRET_INVALID_FLOAT",
 		)
 	})
+
+	test("unset", async ({ expect }) => {
+		const actual = await maybeSecretFloat("SECRET_UNSET_FLOAT")
+		expect(actual).toBe(undefined)
+	})
 })
 
 describe("maybeSecretInt", () => {
@@ -301,6 +359,11 @@ describe("maybeSecretInt", () => {
 			"$SECRET_INVALID_INT is not a number: SECRET_INVALID_INT",
 		)
 	})
+
+	test("unset", async ({ expect }) => {
+		const actual = await maybeSecretInt("SECRET_UNSET_INT")
+		expect(actual).toBe(undefined)
+	})
 })
 
 describe("maybeSecretString", () => {
@@ -313,6 +376,11 @@ describe("maybeSecretString", () => {
 		const actual = await maybeSecretString("SECRET_NO_STRING")
 		expect(actual).toBe(undefined)
 	})
+
+	test("unset", async ({ expect }) => {
+		const actual = await maybeSecretString("SECRET_UNSET_STRING")
+		expect(actual).toBe(undefined)
+	})
 })
 
 describe("maybeSecretStrings", () => {
@@ -323,6 +391,11 @@ describe("maybeSecretStrings", () => {
 
 	test("empty", async ({ expect }) => {
 		const actual = await maybeSecretStrings("SECRET_NO_STRINGS")
+		expect(actual).toBe(undefined)
+	})
+
+	test("unset", async ({ expect }) => {
+		const actual = await maybeSecretStrings("SECRET_UNSET_STRINGS")
 		expect(actual).toBe(undefined)
 	})
 })
@@ -346,6 +419,11 @@ describe("maybeSecretUrl", () => {
 			"$SECRET_INVALID_URL is not a URL: SECRET_INVALID_URL",
 		)
 	})
+
+	test("unset", async ({ expect }) => {
+		const actual = await maybeSecretUrl("SECRET_UNSET_URL")
+		expect(actual).toBe(undefined)
+	})
 })
 
 describe("maybeSecretUuid", () => {
@@ -363,6 +441,11 @@ describe("maybeSecretUuid", () => {
 		await expect(() => maybeSecretUuid("SECRET_INVALID_UUID")).rejects.toThrow(
 			"$SECRET_INVALID_UUID is not a UUID: SECRET_INVALID_UUID",
 		)
+	})
+
+	test("unset", async ({ expect }) => {
+		const actual = await maybeSecretUuid("SECRET_UNSET_UUID")
+		expect(actual).toBe(undefined)
 	})
 })
 
@@ -384,5 +467,10 @@ describe("maybeSecretDate", () => {
 		await expect(() => maybeSecretDate("SECRET_INVALID_DATE")).rejects.toThrow(
 			"$SECRET_INVALID_DATE is not a valid Date: SECRET_INVALID_DATE",
 		)
+	})
+
+	test("unset", async ({ expect }) => {
+		const actual = await maybeSecretDate("SECRET_UNSET_DATE")
+		expect(actual).toBe(undefined)
 	})
 })
