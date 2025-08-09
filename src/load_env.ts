@@ -33,7 +33,7 @@ export function loadEnv(options?: LoadEnvOptions): LoadedEnv {
 		".env",
 	].map(file => prepend(file, options?.path))
 
-	const { parsed, error } = config({ ...options, path: paths })
+	const { parsed, error } = config({ ...options, path: paths, quiet: true })
 
 	if (!parsed)
 		throw new Error("Environment variables could not be loaded.", {
