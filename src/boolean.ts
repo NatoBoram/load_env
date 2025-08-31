@@ -5,6 +5,6 @@ export function toBool(key: string, value: string): boolean {
 		case false.toString():
 			return false
 		default:
-			throw new Error(`$${key} is not a boolean: ${value}`)
+			throw new TypeError(`$${key} is not a boolean: ${value}`)
 	}
 }
