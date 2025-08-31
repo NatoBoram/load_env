@@ -39,7 +39,7 @@ describe("secretBool", () => {
 
 	test("invalid", async ({ expect }) => {
 		await expect(() => secretBool("SECRET_INVALID_BOOL")).rejects.toThrow(
-			"$SECRET_INVALID_BOOL is not a boolean: SECRET_INVALID_BOOL",
+			"$SECRET_INVALID_BOOL is not a boolean",
 		)
 	})
 
@@ -81,7 +81,7 @@ describe("secretFloat", () => {
 
 	test("invalid", async ({ expect }) => {
 		await expect(() => secretFloat("SECRET_INVALID_FLOAT")).rejects.toThrow(
-			"$SECRET_INVALID_FLOAT is not a number: SECRET_INVALID_FLOAT",
+			"$SECRET_INVALID_FLOAT is not a number",
 		)
 	})
 
@@ -116,7 +116,7 @@ describe("secretInt", () => {
 
 	test("invalid", async ({ expect }) => {
 		await expect(() => secretInt("SECRET_INVALID_INT")).rejects.toThrow(
-			"$SECRET_INVALID_INT is not a number: SECRET_INVALID_INT",
+			"$SECRET_INVALID_INT is not a number",
 		)
 	})
 
@@ -201,7 +201,7 @@ describe("secretUrl", () => {
 
 	test("invalid", async ({ expect }) => {
 		await expect(() => secretUrl("SECRET_INVALID_URL")).rejects.toThrow(
-			"$SECRET_INVALID_URL is not a URL: SECRET_INVALID_URL",
+			"$SECRET_INVALID_URL is not a URL",
 		)
 	})
 
@@ -240,7 +240,7 @@ describe("secretUuid", () => {
 
 	test("invalid", async ({ expect }) => {
 		await expect(() => secretUuid("SECRET_INVALID_UUID")).rejects.toThrow(
-			"$SECRET_INVALID_UUID is not a UUID: SECRET_INVALID_UUID",
+			"$SECRET_INVALID_UUID is not a UUID",
 		)
 	})
 
@@ -268,7 +268,7 @@ describe("secretDate", () => {
 
 	test("invalid", async ({ expect }) => {
 		await expect(() => secretDate("SECRET_INVALID_DATE")).rejects.toThrow(
-			"$SECRET_INVALID_DATE is not a valid Date: SECRET_INVALID_DATE",
+			"$SECRET_INVALID_DATE is not a valid Date",
 		)
 	})
 
@@ -298,7 +298,7 @@ describe("maybeSecretBool", () => {
 
 	test("invalid", async ({ expect }) => {
 		await expect(() => maybeSecretBool("SECRET_INVALID_BOOL")).rejects.toThrow(
-			"$SECRET_INVALID_BOOL is not a boolean: SECRET_INVALID_BOOL",
+			"$SECRET_INVALID_BOOL is not a boolean",
 		)
 	})
 
@@ -332,9 +332,7 @@ describe("maybeSecretFloat", () => {
 	test("invalid", async ({ expect }) => {
 		await expect(() =>
 			maybeSecretFloat("SECRET_INVALID_FLOAT"),
-		).rejects.toThrow(
-			"$SECRET_INVALID_FLOAT is not a number: SECRET_INVALID_FLOAT",
-		)
+		).rejects.toThrow("$SECRET_INVALID_FLOAT is not a number")
 	})
 
 	test("unset", async ({ expect }) => {
@@ -356,7 +354,7 @@ describe("maybeSecretInt", () => {
 
 	test("invalid", async ({ expect }) => {
 		await expect(() => maybeSecretInt("SECRET_INVALID_INT")).rejects.toThrow(
-			"$SECRET_INVALID_INT is not a number: SECRET_INVALID_INT",
+			"$SECRET_INVALID_INT is not a number",
 		)
 	})
 
@@ -416,7 +414,7 @@ describe("maybeSecretUrl", () => {
 
 	test("invalid", async ({ expect }) => {
 		await expect(() => maybeSecretUrl("SECRET_INVALID_URL")).rejects.toThrow(
-			"$SECRET_INVALID_URL is not a URL: SECRET_INVALID_URL",
+			"$SECRET_INVALID_URL is not a URL",
 		)
 	})
 
@@ -439,7 +437,7 @@ describe("maybeSecretUuid", () => {
 
 	test("invalid", async ({ expect }) => {
 		await expect(() => maybeSecretUuid("SECRET_INVALID_UUID")).rejects.toThrow(
-			"$SECRET_INVALID_UUID is not a UUID: SECRET_INVALID_UUID",
+			"$SECRET_INVALID_UUID is not a UUID",
 		)
 	})
 
@@ -465,7 +463,7 @@ describe("maybeSecretDate", () => {
 
 	test("invalid", async ({ expect }) => {
 		await expect(() => maybeSecretDate("SECRET_INVALID_DATE")).rejects.toThrow(
-			"$SECRET_INVALID_DATE is not a valid Date: SECRET_INVALID_DATE",
+			"$SECRET_INVALID_DATE is not a valid Date",
 		)
 	})
 

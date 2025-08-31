@@ -28,7 +28,7 @@ export async function maybeSecretDate(key: string): Promise<Date | undefined> {
 
 	const date = new Date(str)
 	if (isNaN(date.getTime()))
-		throw new TypeError(`$${key} is not a valid Date: ${str}`)
+		throw new TypeError(`$${key} is not a valid Date`, { cause: str })
 	return date
 }
 
@@ -42,7 +42,7 @@ export async function maybeSecretFloat(
 	if (str === undefined) return undefined
 
 	const num = parseFloat(str)
-	if (isNaN(num)) throw new TypeError(`$${key} is not a number: ${str}`)
+	if (isNaN(num)) throw new TypeError(`$${key} is not a number`, { cause: str })
 	return num
 }
 
@@ -54,7 +54,7 @@ export async function maybeSecretInt(key: string): Promise<number | undefined> {
 	if (str === undefined) return undefined
 
 	const num = parseInt(str)
-	if (isNaN(num)) throw new TypeError(`$${key} is not a number: ${str}`)
+	if (isNaN(num)) throw new TypeError(`$${key} is not a number`, { cause: str })
 	return num
 }
 
@@ -92,13 +92,13 @@ export async function maybeSecretStrings(
  * const API_URL = maybeSecretUrl("API_URL")
  */
 export async function maybeSecretUrl(key: string): Promise<URL | undefined> {
-	const str = await maybeSecret(key)
-	if (str === undefined) return undefined
+	const value = await maybeSecret(key)
+	if (value === undefined) return undefined
 
 	try {
-		return new URL(str)
+		return new URL(value)
 	} catch (error) {
-		throw new TypeError(`$${key} is not a URL: ${str}`, { cause: error })
+		throw new TypeError(`$${key} is not a URL`, { cause: { error, value } })
 	}
 }
 
@@ -112,7 +112,7 @@ export async function maybeSecretUrl(key: string): Promise<URL | undefined> {
 export async function maybeSecretUuid(key: string): Promise<UUID | undefined> {
 	const str = await maybeSecret(key)
 	if (!str) return undefined
-	if (!isUuid(str)) throw new TypeError(`$${key} is not a UUID: ${str}`)
+	if (!isUuid(str)) throw new TypeError(`$${key} is not a UUID`, { cause: str })
 	return str
 }
 
@@ -192,7 +192,7 @@ export async function secretDate(key: string, fallback?: Date): Promise<Date> {
 
 	const date = new Date(str)
 	if (isNaN(date.getTime()))
-		throw new TypeError(`$${key} is not a valid Date: ${str}`)
+		throw new TypeError(`$${key} is not a valid Date`, { cause: str })
 
 	return date
 }
@@ -214,7 +214,7 @@ export async function secretFloat(
 	if (!str) throw new Error(`$${key} is missing`)
 
 	const num = parseFloat(str)
-	if (isNaN(num)) throw new TypeError(`$${key} is not a number: ${str}`)
+	if (isNaN(num)) throw new TypeError(`$${key} is not a number`, { cause: str })
 	return num
 }
 
@@ -235,7 +235,7 @@ export async function secretInt(
 	if (!str) throw new Error(`$${key} is missing`)
 
 	const num = parseInt(str)
-	if (isNaN(num)) throw new TypeError(`$${key} is not a number: ${str}`)
+	if (isNaN(num)) throw new TypeError(`$${key} is not a number`, { cause: str })
 	return num
 }
 
@@ -293,11 +293,11 @@ export async function secretUrl(key: string, fallback?: URL): Promise<URL> {
 		return fallback
 	}
 
-	const str = await secret(key)
+	const value = await secret(key)
 	try {
-		return new URL(str)
+		return new URL(value)
 	} catch (error) {
-		throw new TypeError(`$${key} is not a URL: ${str}`, { cause: error })
+		throw new TypeError(`$${key} is not a URL`, { cause: { error, value } })
 	}
 }
 
@@ -316,6 +316,6 @@ export async function secretUuid(key: string, fallback?: UUID): Promise<UUID> {
 	}
 
 	const str = await secret(key)
-	if (!isUuid(str)) throw new TypeError(`$${key} is not a UUID: ${str}`)
+	if (!isUuid(str)) throw new TypeError(`$${key} is not a UUID`, { cause: str })
 	return str
 }
