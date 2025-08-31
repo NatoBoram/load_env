@@ -13,14 +13,20 @@ describe("toBool", () => {
 	})
 
 	test("empty", ({ expect }) => {
-		expect(() => toBool("EXAMPLE_NO_BOOL", "")).toThrow(
-			"$EXAMPLE_NO_BOOL is not a boolean: ",
-		)
+		const expected = expect(() => toBool("EXAMPLE_NO_BOOL", ""))
+
+		expected.toThrow("$EXAMPLE_NO_BOOL is not a boolean: ")
+		expected.toThrowError(TypeError)
 	})
 
 	test("invalid", ({ expect }) => {
-		expect(() =>
+		const expected = expect(() =>
 			toBool("EXAMPLE_INVALID_BOOL", "EXAMPLE_INVALID_BOOL"),
-		).toThrow("$EXAMPLE_INVALID_BOOL is not a boolean: EXAMPLE_INVALID_BOOL")
+		)
+
+		expected.toThrow(
+			"$EXAMPLE_INVALID_BOOL is not a boolean: EXAMPLE_INVALID_BOOL",
+		)
+		expected.toThrowError(TypeError)
 	})
 })

@@ -29,7 +29,7 @@ export function envDate(key: string, fallback?: Date): Date {
 
 	const date = new Date(str)
 	if (isNaN(date.getTime()))
-		throw new Error(`$${key} is not a valid Date: ${str}`)
+		throw new TypeError(`$${key} is not a valid Date: ${str}`)
 
 	return date
 }
@@ -46,7 +46,7 @@ export function envFloat(key: string, fallback?: number): number {
 	if (str === undefined) throw new Error(`$${key} is missing`)
 
 	const num = parseFloat(str)
-	if (isNaN(num)) throw new Error(`$${key} is not a number: ${str}`)
+	if (isNaN(num)) throw new TypeError(`$${key} is not a number: ${str}`)
 	return num
 }
 
@@ -62,7 +62,7 @@ export function envInt(key: string, fallback?: number): number {
 	if (str === undefined) throw new Error(`$${key} is missing`)
 
 	const num = parseInt(str)
-	if (isNaN(num)) throw new Error(`$${key} is not a number: ${str}`)
+	if (isNaN(num)) throw new TypeError(`$${key} is not a number: ${str}`)
 	return num
 }
 
@@ -111,7 +111,7 @@ export function envUrl(key: string, fallback?: URL): URL {
 	try {
 		return new URL(str)
 	} catch (error) {
-		throw new Error(`$${key} is not a URL: ${str}`, { cause: error })
+		throw new TypeError(`$${key} is not a URL: ${str}`, { cause: error })
 	}
 }
 
@@ -125,7 +125,7 @@ export function envUrl(key: string, fallback?: URL): URL {
 export function envUuid(key: string, fallback?: UUID): UUID {
 	const str = process.env[key]?.trim() || fallback?.toString().trim()
 	if (str === undefined) throw new Error(`$${key} is missing`)
-	if (!isUuid(str)) throw new Error(`$${key} is not a UUID: ${str}`)
+	if (!isUuid(str)) throw new TypeError(`$${key} is not a UUID: ${str}`)
 	return str
 }
 
@@ -156,7 +156,7 @@ export function maybeEnvDate(key: string): Date | undefined {
 
 	const date = new Date(str)
 	if (isNaN(date.getTime()))
-		throw new Error(`$${key} is not a valid Date: ${str}`)
+		throw new TypeError(`$${key} is not a valid Date: ${str}`)
 
 	return date
 }
@@ -173,7 +173,7 @@ export function maybeEnvFloat(key: string): number | undefined {
 	if (!str) return undefined
 
 	const num = parseFloat(str)
-	if (isNaN(num)) throw new Error(`$${key} is not a number: ${str}`)
+	if (isNaN(num)) throw new TypeError(`$${key} is not a number: ${str}`)
 	return num
 }
 
@@ -189,7 +189,7 @@ export function maybeEnvInt(key: string): number | undefined {
 	if (!str) return undefined
 
 	const num = parseInt(str)
-	if (isNaN(num)) throw new Error(`$${key} is not a number: ${str}`)
+	if (isNaN(num)) throw new TypeError(`$${key} is not a number: ${str}`)
 	return num
 }
 
@@ -237,7 +237,7 @@ export function maybeEnvUrl(key: string): URL | undefined {
 	try {
 		return new URL(str)
 	} catch (error) {
-		throw new Error(`$${key} is not a URL: ${str}`, { cause: error })
+		throw new TypeError(`$${key} is not a URL: ${str}`, { cause: error })
 	}
 }
 
@@ -251,6 +251,6 @@ export function maybeEnvUrl(key: string): URL | undefined {
 export function maybeEnvUuid(key: string): UUID | undefined {
 	const str = process.env[key]?.trim()
 	if (!str) return undefined
-	if (!isUuid(str)) throw new Error(`$${key} is not a UUID: ${str}`)
+	if (!isUuid(str)) throw new TypeError(`$${key} is not a UUID: ${str}`)
 	return str
 }
