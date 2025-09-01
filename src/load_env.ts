@@ -43,7 +43,7 @@ export async function loadEnv(options?: LoadEnvOptions): Promise<LoadedEnv> {
 
 	const promises = paths.map(path =>
 		readFile(path, "utf-8").then(parseEnv).catch(
-			toError("An unknown error occured while reading a file", {
+			toError("An unknown error occurred while reading a file", {
 				NODE_ENV,
 				path,
 			}),
