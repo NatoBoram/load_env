@@ -7,6 +7,7 @@
 	"publish": {
 		"include": [
 			".npmrc",
+			"jsr.json",
 			"LICENSE.txt",
 			"package.json",
 			"pnpm-lock.yaml",
