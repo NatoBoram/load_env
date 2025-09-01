@@ -3,23 +3,23 @@ import { envString } from "./env.ts"
 import { loadEnv } from "./load_env.ts"
 
 describe("loadEnv", () => {
-	test("cwd", ({ expect }) => {
-		loadEnv()
+	test("cwd", async ({ expect }) => {
+		await loadEnv()
 
 		const ENV_FILE = envString("ENV_FILE")
 		expect(ENV_FILE).toBe("cwd")
 	})
 
-	test("path", ({ expect }) => {
-		loadEnv({ path: "test" })
+	test("path", async ({ expect }) => {
+		await loadEnv({ path: "test" })
 
 		const ENV_FILE = envString("ENV_FILE")
 		expect(ENV_FILE).toBe("test")
 	})
 
-	test("development", ({ expect }) => {
+	test("development", async ({ expect }) => {
 		delete process.env["NODE_ENV"]
-		loadEnv()
+		await loadEnv()
 
 		const ENV_FILE = envString("ENV_FILE")
 		expect(ENV_FILE).toBe("development")
