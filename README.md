@@ -49,7 +49,7 @@ import {
 } from "@natoboram/load_env"
 import type { UUID } from "node:crypto"
 
-loadEnv()
+await loadEnv()
 
 export const EXAMPLE_BOOLEAN: boolean = envBool("EXAMPLE_BOOLEAN")
 export const EXAMPLE_DATE: Date = envDate("EXAMPLE_DATE")
@@ -103,6 +103,8 @@ import {
 	secretUuid,
 } from "@natoboram/load_env"
 import type { UUID } from "node:crypto"
+
+await loadEnv()
 
 export const SECRET_BOOLEAN: boolean = await secretBool("SECRET_BOOLEAN")
 export const SECRET_DATE: Date = await secretDate("SECRET_DATE")
