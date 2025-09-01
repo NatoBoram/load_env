@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises"
-import { join } from "path"
-import { parseEnv } from "util"
+import { join } from "node:path"
+import { parseEnv } from "node:util"
 import type { LoadedEnv } from "./loaded_env.ts"
 
 export interface LoadEnvOptions {
@@ -10,6 +10,7 @@ export interface LoadEnvOptions {
 
 interface SafeParsed {
 	readonly errors: Error[]
+
 	parsed: Record<string, unknown>
 }
 
@@ -81,7 +82,7 @@ function prepend(file: string, path: string | undefined): string {
  * @example
  * const error = await readFile(path, "utf-8").catch(toError("Couldn't read a file"))
  */
-export function toError(
+function toError(
 	message: string,
 	cause?: Record<string, unknown>,
 ): (error: unknown) => Error {
