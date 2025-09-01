@@ -1,4 +1,4 @@
-import { readFile } from "fs/promises"
+import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import { parseEnv } from "node:util"
 import type { LoadedEnv } from "./loaded_env.ts"

@@ -1,0 +1,21 @@
+{
+	"$schema": "https://jsr.io/schema/config-file.v1.json",
+	"name": "@natoboram/load-env",
+	"version": "2.0.0",
+	"license": "MPL-2.0",
+	"exports": "./src/index.ts",
+	"publish": {
+		"include": [
+			".npmrc",
+			"jsr.json",
+			"LICENSE.txt",
+			"package.json",
+			"pnpm-lock.yaml",
+			"pnpm-workspace.yaml",
+			"README.md",
+			"src",
+			"tsconfig.json"
+		],
+		"exclude": ["src/**/*.test.ts"]
+	}
+}
