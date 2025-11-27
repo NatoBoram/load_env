@@ -28,6 +28,15 @@ pnpm test:watch    # Watch mode
 - `maybe*` prefix returns `undefined` instead of throwing when missing
 - Non-optional functions accept a fallback as second parameter
 
+### Adding New Types
+
+When introducing a new typed accessor:
+
+- Add the synchronous `env<Type>` variant
+- Add the optional `maybeEnv<Type>` variant
+- Add the asynchronous secret `secret<Type>` variant (reads filesystem)
+- Add the optional secret `maybeSecret<Type>` variant
+
 ### Error Handling
 
 Throw `Error` for missing values, `TypeError` for invalid format:
