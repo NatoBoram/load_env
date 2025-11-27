@@ -38,6 +38,7 @@ import {
 	envStrings,
 	envUrl,
 	envUuid,
+	envEnum,
 	loadEnv,
 	maybeEnvBool,
 	maybeEnvDate,
@@ -47,6 +48,7 @@ import {
 	maybeEnvStrings,
 	maybeEnvUrl,
 	maybeEnvUuid,
+	maybeEnvEnum,
 } from "@natoboram/load_env"
 import type { UUID } from "node:crypto"
 
@@ -60,6 +62,11 @@ export const EXAMPLE_STRING: string = envString("EXAMPLE_STRING")
 export const EXAMPLE_STRINGS: string[] = envStrings("EXAMPLE_STRINGS")
 export const EXAMPLE_URL: URL = envUrl("EXAMPLE_URL")
 export const EXAMPLE_UUID: UUID = envUuid("EXAMPLE_UUID")
+export const EXAMPLE_ENUM = envEnum(
+	"EXAMPLE_ENUM",
+	["development", "production", "test"] as const,
+	"development",
+)
 
 export const OPTIONAL_BOOL: boolean | undefined = maybeEnvBool("OPTIONAL_BOOL")
 export const OPTIONAL_DATE: Date | undefined = maybeEnvDate("OPTIONAL_DATE")
@@ -71,6 +78,8 @@ export const OPTIONAL_STRS: string[] | undefined =
 	maybeEnvStrings("OPTIONAL_STRS")
 export const OPTIONAL_URL: URL | undefined = maybeEnvUrl("OPTIONAL_URL")
 export const OPTIONAL_UUID: UUID | undefined = maybeEnvUuid("OPTIONAL_UUID")
+export const OPTIONAL_ENUM: "development" | "production" | "test" | undefined =
+	maybeEnvEnum("OPTIONAL_ENUM", ["development", "production", "test"] as const)
 ```
 
 There is also support for loading secrets from the filesystem.
