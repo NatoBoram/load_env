@@ -4,57 +4,64 @@ This is `@natoboram/load_env`, a standalone implementation of Vite's `loadEnv` w
 
 ## Architecture
 
-- `src/env.ts`: Type-safe getters with `maybe*` variants for optional values.
-- `src/secret.ts`: Async file-based type-safe secrets. Reads from path in env var or `/run/secrets/{key}`.
+- `src/env.ts`: Sync `env*` getters reading from `process.env` with fallback support
+- `src/maybe_env.ts`: Sync `maybeEnv*` variants returning `undefined` when missing
+- `src/secret.ts`: Async `secret*` getters reading files (path from env or `/run/secrets/{key}`)
+- `src/maybe_secret.ts`: Async `maybeSecret*` variants returning `undefined` when missing
+- `src/load_env.ts`: Main `loadEnv()` function loading `.env` files in priority order
 
 ## Development Commands
 
 ```sh
 pnpm build         # Build with tsgo (TypeScript Go compiler preview)
-pnpm docs          # Generate TypeDoc documentation
-pnpm lint          # ESLint + markdownlint-cli2 + Prettier check
-pnpm lint:fix      # Auto-fix lint issues
 pnpm test          # Run Vitest tests
 pnpm test:coverage # Coverage report
-pnpm test:watch    # Watch mode
+pnpm lint          # ESLint + markdownlint-cli2 + Prettier check
+pnpm lint:fix      # Auto-fix lint issues
 ```
 
 ## Code Patterns
 
 ### Function Naming Convention
 
-- `env*` functions read from `process.env` (sync)
-- `secret*` functions read from filesystem (async)
-- `maybe*` prefix returns `undefined` instead of throwing when missing
-- Non-optional functions accept a fallback as second parameter
+- `env*` → sync, reads `process.env`, accepts fallback as 2nd param
+- `maybeEnv*` → sync, returns `undefined` instead of throwing
+- `secret*` → async, reads filesystem, accepts fallback as 2nd param
+- `maybeSecret*` → async, returns `undefined` instead of throwing
 
 ### Adding New Types
 
-When introducing a new typed accessor:
+Add all four variants in this order:
 
-- Add the synchronous `env<Type>` variant
-- Add the optional `maybeEnv<Type>` variant
-- Add the asynchronous secret `secret<Type>` variant (reads filesystem)
-- Add the optional secret `maybeSecret<Type>` variant
+1. `env<Type>` in `src/env.ts`
+2. `maybeEnv<Type>` in `src/maybe_env.ts`
+3. `secret<Type>` in `src/secret.ts` (calls `maybeSecret<Type>` for fallback logic)
+4. `maybeSecret<Type>` in `src/maybe_secret.ts`
+5. Export from `src/index.ts`
+6. Add tests following existing patterns
+   - Add the `SECRET_<Test>_<Type>` secrets in `test`
 
 ### Error Handling
 
-Throw `Error` for missing values, `TypeError` for invalid format:
-
 ```ts
+// Missing value → Error
 if (str === undefined) throw new Error(`$${key} is missing`)
+
+// Invalid format → TypeError with cause
 if (isNaN(num)) throw new TypeError(`$${key} is not a number: ${str}`)
+throw new TypeError(`$${key} is not a URL`, { cause: { error, value } })
 ```
 
 ### Test Structure
 
-Tests use Vitest with `beforeAll(() => loadEnv())`. Test files mirror source files (`*.test.ts` alongside `*.ts`). The `test/` directory contains secret fixture files (e.g., `test/SECRET_STRING`). Environment variables are loaded from `.env` files, secrets from `test/SECRET_*` files via env var paths.
-
-Test cases follow the pattern: `valid`, `falsy`, `fallback`, `invalid`, `empty`, and for secrets: `unset`.
+- Test files are colocated: `src/*.test.ts`
+- All tests call `beforeAll(() => loadEnv())` to load `.env` files
+- Secret fixtures live in `test/SECRET_*` files, referenced via env vars
+- Test case naming: `valid`, `falsy`, `fallback`, `invalid`, `empty`, `unset` (secrets only)
 
 ## TypeScript Configuration
 
-- Strict mode with all additional checks enabled (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, etc.)
-- Use `.ts` extensions in imports (`import { toBool } from "./boolean.ts"`)
-- ESLint bans type assertions (`assertionStyle: "never"`)
-- Use `type` imports for types only: `import type { UUID } from "node:crypto"`
+- Use `.ts` extensions in imports: `import { toBool } from "./boolean.ts"`
+- Use `type` keyword for type-only imports: `import type { UUID } from "node:crypto"`
+- ESLint bans type assertions (`as` keyword) — use type guards instead
+- All strict checks enabled: `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, etc.
