@@ -29,6 +29,9 @@ export async function maybeSecretDate(key: string): Promise<Date | undefined> {
 	return date
 }
 
+/**
+ * Obtains an optional secret as an enum.
+ */
 export async function maybeSecretEnum<const T extends string[]>(
 	key: string,
 	values: T,
@@ -36,7 +39,9 @@ export async function maybeSecretEnum<const T extends string[]>(
 	const str = await maybeSecret(key)
 	if (str === undefined) return undefined
 	if (!isEnum(str, values))
-		throw new TypeError(`$${key} is not one of ${values.join(", ")}: ${str}`)
+		throw new TypeError(`$${key} is not one of ${values.join(", ")}`, {
+			cause: str,
+		})
 	return str
 }
 
