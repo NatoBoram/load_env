@@ -54,6 +54,9 @@ export async function secretDate(key: string, fallback?: Date): Promise<Date> {
 	return date
 }
 
+/**
+ * Obtains a secret as an enum.
+ */
 export async function secretEnum<const T extends string[]>(
 	key: string,
 	values: T,
