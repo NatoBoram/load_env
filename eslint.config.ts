@@ -8,7 +8,10 @@ export default defineConfig(
 	{
 		languageOptions: {
 			globals: { ...browser, ...node },
-			parserOptions: { project: "./tsconfig.eslint.json" },
+			parserOptions: {
+				project: "./tsconfig.eslint.json",
+				warnOnUnsupportedTypeScriptVersion: false,
+			},
 		},
 	},
 
@@ -74,6 +77,12 @@ export default defineConfig(
 			"@typescript-eslint/sort-type-constituents": "error",
 			"@typescript-eslint/switch-exhaustiveness-check": "error",
 			"func-style": ["error", "declaration"],
+
+			// Put structured data in `cause`.
+			"preserve-caught-error": "off",
+
+			// Broken rule
+			"@typescript-eslint/only-throw-error": "off",
 		},
 	},
 
