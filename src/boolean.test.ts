@@ -16,7 +16,7 @@ describe("toBool", () => {
 		const expected = expect(() => toBool("EXAMPLE_NO_BOOL", ""))
 
 		expected.toThrow("$EXAMPLE_NO_BOOL is not a boolean: ")
-		expected.toThrowError(TypeError)
+		expected.toThrow(TypeError)
 	})
 
 	test("invalid", ({ expect }) => {
@@ -27,6 +27,6 @@ describe("toBool", () => {
 		expected.toThrow(
 			"$EXAMPLE_INVALID_BOOL is not a boolean: EXAMPLE_INVALID_BOOL",
 		)
-		expected.toThrowError(TypeError)
+		expected.toThrow(TypeError)
 	})
 })
