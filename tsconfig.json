@@ -65,6 +65,7 @@
 	"files": [],
 	"references": [
 		{ "path": "./src/env/tsconfig.json" },
+		{ "path": "./src/load/tsconfig.json" },
 		{ "path": "./src/secret/tsconfig.json" }
 	]
 }
