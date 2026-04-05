@@ -31,6 +31,11 @@ describe("secretBool", () => {
 		expect(actual).toBe(true)
 	})
 
+	test("both", async ({ expect }) => {
+		const actual = await secretBool("SECRET_BOOL", false)
+		expect(actual).toBe(true)
+	})
+
 	test("invalid", async ({ expect }) => {
 		await expect(() => secretBool("SECRET_INVALID_BOOL")).rejects.toThrow(
 			"$SECRET_INVALID_BOOL is not a boolean",
@@ -64,6 +69,11 @@ describe("secretFloat", () => {
 	test("fallback", async ({ expect }) => {
 		const phi = (1 + Math.sqrt(5)) / 2
 		const actual = await secretFloat("SECRET_NO_FLOAT", phi)
+		expect(actual).toBe(1.618033988749895)
+	})
+
+	test("both", async ({ expect }) => {
+		const actual = await secretFloat("SECRET_FLOAT", 0)
 		expect(actual).toBe(1.618033988749895)
 	})
 
@@ -102,6 +112,11 @@ describe("secretInt", () => {
 		expect(actual).toBe(42)
 	})
 
+	test("both", async ({ expect }) => {
+		const actual = await secretInt("SECRET_INT", 0)
+		expect(actual).toBe(42)
+	})
+
 	test("empty", async ({ expect }) => {
 		await expect(() => secretInt("SECRET_NO_INT")).rejects.toThrow(
 			'The secret at "test/SECRET_NO_INT" is empty',
@@ -129,6 +144,11 @@ describe("secretString", () => {
 
 	test("fallback", async ({ expect }) => {
 		const actual = await secretString("SECRET_NO_STRING", "SECRET")
+		expect(actual).toBe("SECRET")
+	})
+
+	test("both", async ({ expect }) => {
+		const actual = await secretString("SECRET_STRING", "DEFAULT")
 		expect(actual).toBe("SECRET")
 	})
 
@@ -165,6 +185,14 @@ describe("secretStrings", () => {
 		expect(actual).toStrictEqual(["default1", "default2"])
 	})
 
+	test("both", async ({ expect }) => {
+		const actual = await secretStrings("SECRET_STRINGS", [
+			"default1",
+			"default2",
+		])
+		expect(actual).toStrictEqual(["SECRET1", "SECRET2", "SECRET3"])
+	})
+
 	test("empty", async ({ expect }) => {
 		await expect(() => secretStrings("SECRET_NO_STRINGS")).rejects.toThrow(
 			'The secret at "test/SECRET_NO_STRINGS" is empty',
@@ -189,6 +217,12 @@ describe("secretUrl", () => {
 
 	test("fallback", async ({ expect }) => {
 		const actual = await secretUrl("SECRET_NO_URL", url)
+		expect(actual).toBeInstanceOf(URL)
+		expect(actual.href).toBe(url.href)
+	})
+
+	test("both", async ({ expect }) => {
+		const actual = await secretUrl("SECRET_URL", new URL("https://example.com"))
 		expect(actual).toBeInstanceOf(URL)
 		expect(actual.href).toBe(url.href)
 	})
@@ -226,6 +260,14 @@ describe("secretUuid", () => {
 		expect(actual).toBe("579e5114-ae99-4c41-a0d1-ea061ac815f5")
 	})
 
+	test("both", async ({ expect }) => {
+		const actual = await secretUuid(
+			"SECRET_UUID",
+			"7ac3b444-e6e0-4327-a2a3-07e059ba1082",
+		)
+		expect(actual).toBe("eb4cd2db-7250-40b2-948f-436b628ee8e2")
+	})
+
 	test("empty", async ({ expect }) => {
 		await expect(() => secretUuid("SECRET_NO_UUID")).rejects.toThrow(
 			'The secret at "test/SECRET_NO_UUID" is empty',
@@ -256,6 +298,15 @@ describe("secretDate", () => {
 
 	test("fallback", async ({ expect }) => {
 		const actual = await secretDate("SECRET_NO_DATE", date)
+		expect(actual).toBeInstanceOf(Date)
+		expect(actual.toISOString()).toBe(date.toISOString())
+	})
+
+	test("both", async ({ expect }) => {
+		const actual = await secretDate(
+			"SECRET_DATE",
+			new Date("2000-01-01T00:00:00.000Z"),
+		)
 		expect(actual).toBeInstanceOf(Date)
 		expect(actual.toISOString()).toBe(date.toISOString())
 	})
@@ -292,6 +343,15 @@ describe("secretEnum", () => {
 			"production",
 		)
 		expect(actual).toBe("production")
+	})
+
+	test("both", async ({ expect }) => {
+		const actual = await secretEnum(
+			"SECRET_ENUM",
+			Object.values(NodeEnv),
+			"production",
+		)
+		expect(actual).toBe("development")
 	})
 
 	test("empty", async ({ expect }) => {
