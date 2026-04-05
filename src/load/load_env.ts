@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import { parseEnv } from "node:util"
+import type { LoadedEnv } from "./loaded_env.ts"
 
 export interface LoadEnvOptions {
 	/** Where to find `.env` files. */
@@ -28,9 +29,7 @@ interface SafeParsed {
  * @param options Additional options to use where `path` is where to find `.env`
  * files.
  */
-export async function loadEnv(
-	options?: LoadEnvOptions,
-): Promise<NodeJS.ProcessEnv> {
+export async function loadEnv(options?: LoadEnvOptions): Promise<LoadedEnv> {
 	const NODE_ENV = process.env["NODE_ENV"]?.trim() || "development"
 
 	const files = [
