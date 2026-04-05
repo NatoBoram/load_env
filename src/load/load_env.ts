@@ -67,7 +67,8 @@ export async function loadEnv(options?: LoadEnvOptions): Promise<LoadedEnv> {
 		})
 
 	// The full environment
-	process.env = Object.assign({}, parsed, process.env, { NODE_ENV })
+	const merged = Object.assign({}, parsed, process.env, { NODE_ENV })
+	Object.assign(process.env, merged)
 
 	// Only the keys that were parsed
 	const loaded = Object.keys(parsed).reduce<NodeJS.ProcessEnv>((env, key) => {
