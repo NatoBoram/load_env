@@ -1,19 +1,18 @@
 import { afterEach, describe, test } from "vitest"
-import { envString } from "./env.ts"
 import { loadEnv } from "./load_env.ts"
 
 describe("loadEnv", () => {
 	test("cwd", async ({ expect }) => {
 		await loadEnv()
 
-		const ENV_FILE = envString("ENV_FILE")
+		const ENV_FILE = process.env["ENV_FILE"]?.trim()
 		expect(ENV_FILE).toBe("cwd")
 	})
 
 	test("path", async ({ expect }) => {
 		await loadEnv({ path: "test" })
 
-		const ENV_FILE = envString("ENV_FILE")
+		const ENV_FILE = process.env["ENV_FILE"]?.trim()
 		expect(ENV_FILE).toBe("test")
 	})
 
@@ -21,8 +20,15 @@ describe("loadEnv", () => {
 		delete process.env["NODE_ENV"]
 		await loadEnv()
 
-		const ENV_FILE = envString("ENV_FILE")
+		const ENV_FILE = process.env["ENV_FILE"]?.trim()
 		expect(ENV_FILE).toBe("development")
+	})
+
+	test("returns", async ({ expect }) => {
+		process.env["UNRELATED"] = "UNRELATED"
+		const loaded = await loadEnv()
+		expect(loaded["ENV_FILE"]).toBeDefined()
+		expect(loaded["UNRELATED"]).not.toBeDefined()
 	})
 })
 
@@ -33,5 +39,6 @@ afterEach(() => {
 	}
 
 	delete process.env["ENV_FILE"]
+	delete process.env["UNRELATED"]
 	process.env["NODE_ENV"] = "test"
 })

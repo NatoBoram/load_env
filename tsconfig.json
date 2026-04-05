@@ -60,5 +60,12 @@
 		"skipDefaultLibCheck": true,
 		"skipLibCheck": true
 	},
-	"include": ["src"]
+	"include": ["src/index.*.ts", "src/index.ts", "src/main.*.ts", "src/main.ts"],
+	"exclude": [],
+	"files": [],
+	"references": [
+		{ "path": "./src/env/tsconfig.json" },
+		{ "path": "./src/load/tsconfig.json" },
+		{ "path": "./src/secret/tsconfig.json" }
+	]
 }

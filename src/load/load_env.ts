@@ -11,7 +11,7 @@ export interface LoadEnvOptions {
 interface SafeParsed {
 	readonly errors: Error[]
 
-	parsed: Record<string, unknown>
+	parsed: Record<string, string>
 }
 
 /** Loads environment variables from the `.env` files. `NODE_ENV` has to be set
@@ -66,9 +66,18 @@ export async function loadEnv(options?: LoadEnvOptions): Promise<LoadedEnv> {
 			cause: errors,
 		})
 
-	const merged = Object.assign(parsed, process.env, { NODE_ENV })
-	process.env = merged
-	return merged
+	// The full environment
+	const merged = Object.assign({}, parsed, process.env, { NODE_ENV })
+	Object.assign(process.env, merged)
+
+	// Only the keys that were parsed
+	const loaded = Object.keys(parsed).reduce<NodeJS.ProcessEnv>((env, key) => {
+		const value = process.env[key]
+		if (value !== undefined) env[key] = value
+		return env
+	}, {})
+
+	return Object.assign(loaded, { NODE_ENV })
 }
 
 function prepend(file: string, path: string | undefined): string {
