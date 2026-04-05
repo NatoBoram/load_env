@@ -23,6 +23,13 @@ describe("loadEnv", () => {
 		const ENV_FILE = process.env["ENV_FILE"]?.trim()
 		expect(ENV_FILE).toBe("development")
 	})
+
+	test("returns", async ({ expect }) => {
+		process.env["UNRELATED"] = "UNRELATED"
+		const loaded = await loadEnv()
+		expect(loaded["ENV_FILE"]).toBeDefined()
+		expect(loaded["UNRELATED"]).not.toBeDefined()
+	})
 })
 
 afterEach(() => {
@@ -32,5 +39,6 @@ afterEach(() => {
 	}
 
 	delete process.env["ENV_FILE"]
+	delete process.env["UNRELATED"]
 	process.env["NODE_ENV"] = "test"
 })

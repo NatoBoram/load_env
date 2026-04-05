@@ -1,7 +1,6 @@
 import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import { parseEnv } from "node:util"
-import type { LoadedEnv } from "./loaded_env.ts"
 
 export interface LoadEnvOptions {
 	/** Where to find `.env` files. */
@@ -11,7 +10,7 @@ export interface LoadEnvOptions {
 interface SafeParsed {
 	readonly errors: Error[]
 
-	parsed: Record<string, unknown>
+	parsed: Record<string, string>
 }
 
 /** Loads environment variables from the `.env` files. `NODE_ENV` has to be set
@@ -29,7 +28,9 @@ interface SafeParsed {
  * @param options Additional options to use where `path` is where to find `.env`
  * files.
  */
-export async function loadEnv(options?: LoadEnvOptions): Promise<LoadedEnv> {
+export async function loadEnv(
+	options?: LoadEnvOptions,
+): Promise<NodeJS.ProcessEnv> {
 	const NODE_ENV = process.env["NODE_ENV"]?.trim() || "development"
 
 	const files = [
@@ -66,9 +67,17 @@ export async function loadEnv(options?: LoadEnvOptions): Promise<LoadedEnv> {
 			cause: errors,
 		})
 
-	const merged = Object.assign(parsed, process.env, { NODE_ENV })
-	process.env = merged
-	return merged
+	// The full environment
+	process.env = Object.assign({}, parsed, process.env, { NODE_ENV })
+
+	// Only the keys that were parsed
+	const loaded = Object.keys(parsed).reduce<NodeJS.ProcessEnv>((env, key) => {
+		const value = process.env[key]
+		if (value !== undefined) env[key] = value
+		return env
+	}, {})
+
+	return Object.assign(loaded, { NODE_ENV })
 }
 
 function prepend(file: string, path: string | undefined): string {

@@ -30,7 +30,14 @@
 		"dist",
 		"!dist/**/*.test.*"
 	],
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
 	"main": "dist/index.js",
+	"type": "module",
 	"repository": "github:NatoBoram/load_env",
 	"scripts": {
 		"build": "tsgo --build",
@@ -61,13 +68,6 @@
 	},
 	"engines": {
 		"node": ">=22.12"
-	},
-	"type": "module",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js"
-		}
 	},
 	"types": "dist/index.d.ts",
 	"module": "dist/index.js"
