@@ -58,8 +58,6 @@ jobs:
           name: natoboram-load_env-${{ github.ref_name }}.tgz
 
       - run: pnpm publish natoboram-load_env-*.tgz --access public --no-git-checks --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
       - id: url
         run: echo "url=https://www.npmjs.com/package/@natoboram/load_env/v/${VERSION#v}" >> "$GITHUB_OUTPUT"
