@@ -1,5 +1,6 @@
 import { beforeAll, describe, test } from "vitest"
-import { loadEnv } from "./load_env.ts"
+import { loadEnv } from "../load/load_env.ts"
+import { NodeEnv } from "../utils/node_env.ts"
 import {
 	maybeSecretBool,
 	maybeSecretDate,
@@ -11,7 +12,6 @@ import {
 	maybeSecretUrl,
 	maybeSecretUuid,
 } from "./maybe_secret.ts"
-import { NodeEnv } from "./node_env.ts"
 
 beforeAll(() => loadEnv())
 

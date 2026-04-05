@@ -1,6 +1,7 @@
 import type { UUID } from "node:crypto"
-import { toBool } from "./boolean.ts"
-import { isEnum } from "./enum.ts"
+import { toBool } from "../utils/boolean.ts"
+import { isEnum } from "../utils/enum.ts"
+import { isUuid } from "../utils/uuid.ts"
 import {
 	maybeSecretBool,
 	maybeSecretDate,
@@ -13,7 +14,6 @@ import {
 	maybeSecretUuid,
 } from "./maybe_secret.ts"
 import { secret } from "./secret_utils.ts"
-import { isUuid } from "./uuid.ts"
 
 /**
  * Obtains a secret as a boolean.

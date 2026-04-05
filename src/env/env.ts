@@ -1,7 +1,7 @@
 import type { UUID } from "node:crypto"
-import { toBool } from "./boolean.ts"
-import { isEnum } from "./enum.ts"
-import { isUuid } from "./uuid.ts"
+import { toBool } from "../utils/boolean.ts"
+import { isEnum } from "../utils/enum.ts"
+import { isUuid } from "../utils/uuid.ts"
 
 /**
  * Obtains an environment variable as a boolean.

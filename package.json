@@ -33,7 +33,7 @@
 	"main": "dist/index.js",
 	"repository": "github:NatoBoram/load_env",
 	"scripts": {
-		"build": "tsgo",
+		"build": "tsgo --build",
 		"clean": "rm -rf dist docs node_modules tsconfig.tsbuildinfo",
 		"docs": "typedoc",
 		"format": "prettier --write .",
