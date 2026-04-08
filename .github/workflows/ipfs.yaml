@@ -1,0 +1,84 @@
+name: IPFS
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build_ipfs:
+    permissions:
+      contents: read
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v5
+        with:
+          version: latest
+      - uses: actions/setup-node@v6
+        with:
+          node-version: latest
+          cache: pnpm
+      - run: pnpm install
+
+      - run: pnpm run build
+      - run: pnpm run docs
+      - run: pnpm run test:coverage
+      - run: cp --force --recursive coverage docs/coverage
+
+      - if: github.actor != 'nektos/act'
+        uses: actions/upload-artifact@v7
+        with:
+          name: docs
+          path: docs
+          compression-level: 9
+          if-no-files-found: error
+
+  deploy_ipfs:
+    permissions:
+      contents: read
+      pull-requests: write
+      statuses: write
+
+    needs: build_ipfs
+    if: github.actor != 'nektos/act'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: ipfs
+      url: ${{ steps.url.outputs.url }}
+
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: docs
+          path: docs
+
+      - id: deploy
+        if: github.actor != 'dependabot[bot]'
+        uses: ipfs/ipfs-deploy-action@v1
+        with:
+          github-token: ${{ github.token }}
+          ipfs-add-options: --chunker=buzhash --cid-version=1 --hash=blake3 --pin=false
+          kubo-api-auth: ${{ secrets.KUBO_API_AUTH }}
+          kubo-api-url: ${{ secrets.KUBO_API_URL }}
+          path-to-deploy: docs
+
+      - if: github.actor != 'dependabot[bot]' && github.ref_name == 'main' && steps.deploy.outputs.cid
+        run: ipfs --api "$KUBO_API_URL" --api-auth "$KUBO_API_AUTH" name publish --key=@natoboram/load_env "/ipfs/$CID"
+        env:
+          CID: ${{ steps.deploy.outputs.cid }}
+          KUBO_API_AUTH: ${{ secrets.KUBO_API_AUTH }}
+          KUBO_API_URL: ${{ secrets.KUBO_API_URL }}
+
+      - id: url
+        if: steps.deploy.outputs.cid
+        run: echo "url=https://$CID.ipfs.dweb.link" >> "$GITHUB_OUTPUT"
+        env:
+          CID: ${{ steps.deploy.outputs.cid }}
