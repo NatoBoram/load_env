@@ -32,6 +32,25 @@ jobs:
           path: natoboram-load_env-*.tgz
           if-no-files-found: error
 
+  attest:
+    permissions:
+      artifact-metadata: write
+      attestations: write
+      id-token: write
+
+    needs: build
+    if: github.actor != 'nektos/act'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: natoboram-load_env-${{ github.ref_name }}.tgz
+
+      - uses: actions/attest@v4
+        with:
+          subject-path: natoboram-load_env-*.tgz
+
   publish-npm:
     permissions:
       id-token: write # Add `--provenance`
