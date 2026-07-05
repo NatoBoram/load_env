@@ -44,7 +44,7 @@
 	"repository": "github:NatoBoram/load_env",
 	"scripts": {
 		"build": "tsgo --build",
-		"clean": "rm -rf dist docs node_modules tsconfig.tsbuildinfo",
+		"clean": "rm -rf dist docs node_modules pnpm-lock.yaml tsconfig.tsbuildinfo",
 		"dev": "node ./src/main.ts",
 		"docs": "typedoc",
 		"format": "prettier --write .",
