@@ -30,6 +30,7 @@ jobs:
         with:
           name: natoboram-load_env-${{ github.ref_name }}.tgz
           path: natoboram-load_env-*.tgz
+          compression-level: 9
           if-no-files-found: error
 
   attest:
