@@ -1,6 +1,6 @@
 {
 	"name": "@natoboram/load_env",
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"description": "A standalone implementation of Vite's loadEnv",
 	"keywords": [
 		"dotenv",
@@ -64,7 +64,7 @@
 		"eslint-config-prettier": "^10.1.8",
 		"globals": "^17.7.0",
 		"jiti": "^2.7.0",
-		"markdownlint-cli2": "^0.23.0",
+		"markdownlint-cli2": "^0.23.2",
 		"prettier": "^3.9.4",
 		"typedoc": "^0.28.19",
 		"typescript": "6.0.3",
