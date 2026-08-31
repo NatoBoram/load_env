@@ -30,6 +30,24 @@ describe("loadEnv", () => {
 		expect(loaded["ENV_FILE"]).toBeDefined()
 		expect(loaded["UNRELATED"]).not.toBeDefined()
 	})
+
+	describe("override", () => {
+		test(true.toString(), async ({ expect }) => {
+			process.env["ENV_FILE"] = "test"
+			const loaded = await loadEnv({ override: true })
+
+			expect(loaded["ENV_FILE"]).toBe("cwd")
+			expect(process.env["ENV_FILE"]).toBe("cwd")
+		})
+
+		test(false.toString(), async ({ expect }) => {
+			process.env["ENV_FILE"] = "test"
+			const loaded = await loadEnv({ override: false })
+
+			expect(loaded["ENV_FILE"]).toBe("test")
+			expect(process.env["ENV_FILE"]).toBe("test")
+		})
+	})
 })
 
 afterEach(() => {
