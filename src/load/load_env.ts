@@ -6,6 +6,12 @@ import type { LoadedEnv } from "./loaded_env.ts"
 export interface LoadEnvOptions {
 	/** Where to find `.env` files. */
 	readonly path?: string | undefined
+
+	/** Whether to override existing environment variables.
+	 *
+	 * @default false
+	 */
+	readonly override?: boolean | undefined
 }
 
 interface SafeParsed {
@@ -67,7 +73,9 @@ export async function loadEnv(options?: LoadEnvOptions): Promise<LoadedEnv> {
 		})
 
 	// The full environment
-	const merged = Object.assign({}, parsed, process.env, { NODE_ENV })
+	const merged = options?.override
+		? Object.assign({}, process.env, parsed, { NODE_ENV })
+		: Object.assign({}, parsed, process.env, { NODE_ENV })
 	Object.assign(process.env, merged)
 
 	// Only the keys that were parsed
